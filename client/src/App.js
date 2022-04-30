@@ -1,25 +1,39 @@
-import React from 'react'
-// import ReactDOM from 'react-dom'
-import logo from './logo.png';
 import './style.css';
-import {BellIcon, SearchIcon} from '@heroicons/react/solid';
+import AuthModalContext from "./AuthModalContext";
+import {useState,useEffect} from "react";
+import axios from 'axios';
+import UserContext from "./UserContext";
+import Routing from "./Routing";
+import PostFormModalContext from "./PostFormModalContext";
+import RedirectContext from "./RedirectContext";
 
 function App() {
-  return (
-   <div>
-      <header className="flex w-full bg-gray-800 p-2">
-        <div className = "mx-4"> 
-        <img src={logo} alt="" className="w-8 h-8" />
-         </div>
-         <form action = "" className='bg-gray-800  px-3 flex rounded-md border border-gray-700'> 
-         <input type="text" className="bg-white-500  h-6 text-sm  p-3" placeholder='Search'/>
-         <SearchIcon className='text-gray-300 h-6 w- mx--10 mt-1' /> 
+  const [showAuthModal,setShowAuthModal] = useState(false);
+  const [showPostFormModal,setShowPostFormModal] = useState(false);
+  const [user,setUser] = useState({});
+  const [redirect, setRedirect] = useState(false);
 
-         </form>
-         <BellIcon className='text-white w-8 h-8' />
-    </header>
-   </div>
-   
+  useEffect(() => {
+
+    axios.get('http://localhost:4000/user', {withCredentials:true})
+      .then(response => setUser(response.data));
+
+  }, []);
+  function logout() {
+    axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
+      .then(() => setUser({}));
+  }
+
+  return (
+    <AuthModalContext.Provider value={{show:showAuthModal,setShow:setShowAuthModal}}>
+      <PostFormModalContext.Provider value={{show:showPostFormModal,setShow:setShowPostFormModal}}>
+        <UserContext.Provider value={{...user, logout, setUser}}>
+          <RedirectContext.Provider value={{redirect,setRedirect}}>
+            <Routing />
+          </RedirectContext.Provider>
+        </UserContext.Provider>
+      </PostFormModalContext.Provider>
+    </AuthModalContext.Provider>
   );
 }
 
