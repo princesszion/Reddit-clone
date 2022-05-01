@@ -20,7 +20,7 @@ function App() {
 
   }, []);
   function logout() {
-    axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
+    axios.post('http://localhost:4000/user/logout', {}, {withCredentials:true})
       .then(() => setUser({}));
   }
 

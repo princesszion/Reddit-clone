@@ -1,7 +1,6 @@
 #PROJECT NAME: Reddit Clone
 #WIREFRAME: https://www.figma.com/file/HCQHzPauw7vf0o1G7pCspR/Reddit-Clone?node-id=0%3A1
 
-
 This project is a clone of the popular Reddit, a network of communities where people can dive into their interests, hobbies, and passions, developed in MERN. 
 
 That is:
